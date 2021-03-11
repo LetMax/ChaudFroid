@@ -15,4 +15,5 @@
     <string name="bartext">barText</string>
     <string name="sensibilit_du_jeu">Sensibilité du jeu :</string>
     <string name="intro">Choisissez une photo pour commencer le défi</string>
+    <string name="title_activity_start_game">Choisir un défi</string>
 </resources>
