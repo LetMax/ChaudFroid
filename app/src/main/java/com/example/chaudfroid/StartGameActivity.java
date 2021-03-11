@@ -8,16 +8,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,11 +15,21 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.IOException;
 
 public class StartGameActivity extends AppCompatActivity {
     float[] latLong = new float[2];
     public static final String MESSAGE = "com.example.chaudfroid.ADRESSE";
+    public static final String MESSAGE_SENSIBILITE = "com.example.chaudfroid.SENSIBILITE";
+    public static final int SENSIBILITE_DEFAUT = 50;
+    private int sensibilite = SENSIBILITE_DEFAUT;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -51,8 +51,6 @@ public class StartGameActivity extends AppCompatActivity {
             if(exif.getLatLong(latLong)) {
                bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(), u);
 
-               System.out.println(latLong[0] + "//" + latLong[1]);
-
                 String[] PERMISSIONS = {android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION};
 
                 if(this.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -63,14 +61,13 @@ public class StartGameActivity extends AppCompatActivity {
                 GPSTracker tracker = new GPSTracker(this);
                 if (!tracker.canGetLocation()) {
                     tracker.showSettingsAlert();
-                } else {
-                    System.out.println(tracker.getLatitude() + "//" + tracker.getLongitude());
                 }
 
                 Location userLocation = new Location("userLocation");
 
                 userLocation.setLatitude(tracker.getLatitude());
                 userLocation.setLongitude(tracker.getLongitude());
+                tracker.stopUsingGPS();
 
                 Location photoLocation = new Location("photoLocation");
 
@@ -78,8 +75,6 @@ public class StartGameActivity extends AppCompatActivity {
                 photoLocation.setLongitude(latLong[1]);
 
                 float distance = userLocation.distanceTo(photoLocation);
-
-                System.out.println("Distance : " + distance + "m");
 
                 if(distance > 100000){
                     Toast.makeText(this, "Vous êtes à plus 100km de la cible, essayer une autre photo", Toast.LENGTH_SHORT).show();
@@ -99,27 +94,16 @@ public class StartGameActivity extends AppCompatActivity {
         mImageView = (ImageView) this.findViewById(R.id.imageView);
         mImageView.setImageBitmap(bitmap);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(StartGameActivity.this, GameActivity.class);
-                myIntent.putExtra(MESSAGE, adresse); //Optional parameters
-                startActivity(myIntent);
-            }
-        });
-
         SeekBar seekBar = this.findViewById(R.id.seekBar);
         TextView textView = this.findViewById(R.id.textView);
-        textView.setText(50 + " mètres");
+        textView.setText(sensibilite + " mètres");
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 50;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-                textView.setText(progress + " mètres");
+                sensibilite = progresValue;
+                textView.setText(sensibilite + " mètres");
             }
 
             @Override
@@ -128,7 +112,18 @@ public class StartGameActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                textView.setText(progress + " mètres");
+                textView.setText(sensibilite + " mètres");
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(StartGameActivity.this, GameActivity.class);
+                myIntent.putExtra(MESSAGE, adresse); //Optional parameters
+                myIntent.putExtra(MESSAGE_SENSIBILITE, sensibilite);
+                startActivity(myIntent);
             }
         });
     }

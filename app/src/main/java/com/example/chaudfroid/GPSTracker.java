@@ -195,6 +195,7 @@ public final class GPSTracker implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        ((GameActivity)mContext).notifyLocationChanged(location.getLatitude(),location.getLongitude());
     }
 
     @Override
