@@ -2,20 +2,15 @@ package com.example.chaudfroid;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     final int SELECT_IMAGE = 0;
@@ -31,14 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
         this.findViewById(R.id.fab).setEnabled(false);
 
-        this.findViewById(R.id.importPhoto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Sélectionnez une image"), SELECT_IMAGE);
-            }
+        this.findViewById(R.id.importPhoto).setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Sélectionnez une image"), SELECT_IMAGE);
         });
     }
 
@@ -49,16 +41,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     Intent intent = new Intent(this, StartGameActivity.class);
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                        System.out.println(data.getData().toString());
-
-                        intent.putExtra(EXTRA_MESSAGE, data.getData().toString());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    intent.putExtra(EXTRA_MESSAGE, data.getData().toString());
                     startActivity(intent);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED)  {

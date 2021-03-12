@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#4C4C4C"
             app:popupTheme="@style/Theme.ChaudFroid.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:enabled="false"
         app:srcCompat="@android:drawable/ic_media_play"
         android:contentDescription="@string/todo" />
 
