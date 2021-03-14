@@ -11,13 +11,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/Theme.ChaudFroid.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#4C4C4C"
-            app:popupTheme="@style/Theme.ChaudFroid.PopupOverlay" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

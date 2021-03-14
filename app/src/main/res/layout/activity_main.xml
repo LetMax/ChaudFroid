@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.ChaudFroid.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#4C4C4C"
-            app:popupTheme="@style/Theme.ChaudFroid.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="689dp"
@@ -35,6 +21,7 @@
             android:layout_marginEnd="91dp"
             android:layout_marginRight="91dp"
             android:autofillHints=""
+            android:focusable="false"
             android:ems="10"
             android:gravity="left|top"
             android:inputType="textMultiLine"

@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".StartGameActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.ChaudFroid.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#4C4C4C"
-            app:popupTheme="@style/Theme.ChaudFroid.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +42,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8dp"
             android:text="@string/bartext"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/button_second"

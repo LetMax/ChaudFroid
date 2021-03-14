@@ -17,7 +17,7 @@
     <string name="intro">Choisissez une photo pour commencer le défi</string>
     <string name="title_activity_start_game">Choisir un défi</string>
     <string name="box">box</string>
-    <string name="title_activity_end_game">Vous avez gagné</string>
+    <string name="title_activity_end_game">Vous avez gagné !</string>
     <string name="buttonPhoto">Prendre une photo</string>
     <string name="buttonShare">Partager</string>
 </resources>

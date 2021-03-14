@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,15 +34,15 @@ public class StartGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
         Intent intent = getIntent();
         String adresse = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         Uri u = Uri.parse(adresse);
 
         Bitmap bitmap = null;
-        ExifInterface exif = null;
+        ExifInterface exif;
         try {
             exif = new ExifInterface(this.getContentResolver().openInputStream(u));
 
@@ -77,14 +75,14 @@ public class StartGameActivity extends AppCompatActivity {
                 float distance = userLocation.distanceTo(photoLocation);
 
                 if(distance > 100000){
-                    Toast.makeText(this, "Vous êtes à plus 100km de la cible, essayer une autre photo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Vous êtes à plus 100km de la cible, essayer une autre photo", Toast.LENGTH_LONG).show();
                 }
                 else{
                     this.findViewById(R.id.fab).setEnabled(true);
                 }
             }
             else{
-                Toast.makeText(this, "Données GPS manquantes, selectionnez une nouvelle image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Données GPS manquantes, selectionnez une nouvelle image", Toast.LENGTH_LONG).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,14 +115,11 @@ public class StartGameActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(StartGameActivity.this, GameActivity.class);
-                myIntent.putExtra(MESSAGE, adresse); //Optional parameters
-                myIntent.putExtra(MESSAGE_SENSIBILITE, sensibilite);
-                startActivity(myIntent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent myIntent = new Intent(StartGameActivity.this, GameActivity.class);
+            myIntent.putExtra(MESSAGE, adresse); //Optional parameters
+            myIntent.putExtra(MESSAGE_SENSIBILITE, sensibilite);
+            startActivity(myIntent);
         });
     }
 }
