@@ -21,5 +21,4 @@
 
     <style name="Theme.ChaudFroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.ChaudFroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

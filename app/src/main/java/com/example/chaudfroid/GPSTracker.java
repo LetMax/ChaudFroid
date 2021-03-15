@@ -65,7 +65,7 @@ public final class GPSTracker implements LocationListener {
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
 
-            if (isGPSEnabled == false && isNetworkEnabled == false) {
+            if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;

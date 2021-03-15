@@ -34,8 +34,6 @@ public class StartGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
-        /*Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
         Intent intent = getIntent();
         String adresse = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -73,6 +71,8 @@ public class StartGameActivity extends AppCompatActivity {
                 photoLocation.setLongitude(latLong[1]);
 
                 float distance = userLocation.distanceTo(photoLocation);
+
+                System.out.println(distance);
 
                 if(distance > 100000){
                     Toast.makeText(this, "Vous êtes à plus 100km de la cible, essayer une autre photo", Toast.LENGTH_LONG).show();
