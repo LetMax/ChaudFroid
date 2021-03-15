@@ -20,4 +20,8 @@
     <string name="title_activity_end_game">Vous avez gagné !</string>
     <string name="buttonPhoto">Prendre une photo</string>
     <string name="buttonShare">Partager</string>
+    <string name="nord">Nord</string>
+    <string name="sud">Sud</string>
+    <string name="ouest">Ouest</string>
+    <string name="est">Est</string>
 </resources>

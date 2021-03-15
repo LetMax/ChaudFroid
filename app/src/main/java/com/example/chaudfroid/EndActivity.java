@@ -2,10 +2,10 @@ package com.example.chaudfroid;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.location.Location;
-import androidx.core.content.FileProvider;
-import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,15 +17,18 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class EndActivity extends AppCompatActivity {
 
@@ -71,14 +74,21 @@ public class EndActivity extends AppCompatActivity {
 
         boutonPartager = findViewById(R.id.buttonShare);
         boutonPartager.setOnClickListener(v -> {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName()+".fileprovider", file));
-            sendIntent.setType("image/*");
 
-            Intent shareIntent = Intent.createChooser(sendIntent, "Partager le défi");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(shareIntent);
+            Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+
+            intentShareFile.setType(URLConnection.guessContentTypeFromName(file.getName()));
+
+            Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName()+".fileprovider", file);
+
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, uri);
+
+            List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(intentShareFile, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            startActivity(intentShareFile);
         });
     }
 
